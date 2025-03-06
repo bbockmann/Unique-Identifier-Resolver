@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>Book Request</title>
+	<#INCLUDE filename="include_head.html">
+	<link rel="stylesheet" href="css/illiad.css">
+</head>
+
+<body>
+	<#INCLUDE filename="include_header.html">	
+	<#INCLUDE filename="include_menu.html">
+ 
+	<div class="container">
+		<main id="content" aria-label="Content">
+			<form action="illiad.dll" method="post" name="LoanRequest">
+				<input type="hidden" name="ILLiadForm" value="LoanRequest">
+				<input type="hidden" name="Username" value="<#PARAM name='Username'>">
+				<input type="hidden" name="SessionID" value="<#PARAM name='SessionID'>">
+				<!-- <input type="hidden" name="ESPNumber" value="<#PARAM name='ESPNumber'>"> -->
+				<input type="hidden" name="CallNumber" value="<#PARAM name='CallNumber'>">
+				<input type="hidden" id="NotWantedAfter" name="NotWantedAfter" value="<#PARAM name='NotWantedAfter'>">
+				<input type="hidden" id="DocumentType" name="DocumentType" value="Book">
+				<input type="hidden" id="ItemInfo5" name="ItemInfo5" value="<#PARAM name='ItemInfo5'>">
+				<input type="hidden" id="WantedBy" name="WantedBy">
+
+				<fieldset>
+
+					<h2 class="page-header">Book Request</h2>
+					<#INCLUDE filename="include_resolver.html">
+					<#INCLUDE filename="include_form_switch_buttons.html">
+
+					<section name="bookrequest-info">
+
+						<div class="form-group col-md-12">
+							<label for="LoanTitle">
+								<span class="field">
+									<span class="<#ERROR name='ERRORLoanTitle'>">
+										Title
+										<span class="req">(required)</span>
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="LoanTitle" id="LoanTitle"
+								value="<#PARAM name='LoanTitle'>" required>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="LoanAuthor">
+								<span class="field">
+									<span class="<#ERROR name='ERRORLoanAuthor'>">
+										Author(s)/Editor(s)
+									</span>
+									<br>
+									<span class="small-notes">
+										last name, first name
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="LoanAuthor" id="LoanAuthor" value="<#PARAM name='LoanAuthor'>">
+						</div>
+
+						<div class="three-line">
+							<div class="form-group col-md-12">
+								<label for="LoanDate">
+									<span class="field">
+										<span class="<#ERROR name='ERRORLoanDate'>">
+											Year
+											<span class="req">(required)</span>
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="LoanDate" id="LoanDate" value="<#PARAM name='LoanDate'>" required>
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="LoanEdition">
+									<span class="field">
+										<span class="<#ERROR name='ERRORLoanEdition'>">
+											Edition
+										</span>
+									</span>
+									<span class="small-notes">if any</span>
+								</label>
+								<input type="text" class="form-control" name="LoanEdition" id="LoanEdition" value="<#PARAM name='LoanEdition'>">
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="ItemInfo4">
+									<span class="field">
+										<span class="<#ERROR name='ERRORItemInfo4'>">
+											Volume(s)
+										</span>
+									</span>
+									<span class="small-notes">if any</span>
+								</label>
+								<input type="text" class="form-control" name="ItemInfo4" id="ItemInfo4"
+									value="<#PARAM name='ItemInfo4'>">
+							</div>
+						</div>
+
+						<div class="two-line">
+
+							<div class="form-group col-md-12">
+								<label for="LoanPublisher">
+									<span class="field">
+										<span class="<#ERROR name='ERRORLoanPublisher'>">
+											Publisher
+											<span class="req">(required)</span>
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="LoanPublisher"
+									id="LoanPublisher" value="<#PARAM name='LoanPublisher'>" required>
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="LoanPlace">
+									<span class="field">
+										<span class="<#ERROR name='ERRORLoanPlace'>">
+											Place of Publication
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="LoanPlace" id="LoanPlace"
+									value="<#PARAM name='LoanPlace'>">
+							</div>
+						</div>
+
+						<div class="two-line">
+							<div class="form-group col-md-12">
+								<label for="ISSN">
+									<span class="field">
+										<span class="<#ERROR name='ERRORISSN'>">
+											ISBN (Intl. Standard Book No.)
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="ISSN" id="ISSN"
+									value="<#PARAM name='ISSN'>">
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="ESPNumber">
+									<span class="field">
+										<span class="<#ERROR name='ERRORESPNumber'>">
+											WorldCat/OCLC Accession Number
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="ESPNumber" id="ESPNumber"
+									value="<#PARAM name='ESPNumber'>">
+							</div>
+						</div>
+						
+						<!--<div class="form-group col-md-12">
+							<label for="CallNumber">					
+								<span class="field">
+									<span class="<#ERROR name='ERRORCallNumber'>">
+										Call Number
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="CallNumber" id="CallNumber" value="<#PARAM name='CallNumber'>">
+						</div>-->
+
+						<#INCLUDE filename='include_wantedby_notes.html'>
+					</section>
+					<#INCLUDE filename='include_request_cited.html'>
+					<#INCLUDE filename='include_request_buttons.html'>
+				</fieldset>
+			</form>
+		</main>
+		<#INCLUDE filename='include_footer.html'>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>Journal Article Request</title>
+	<#INCLUDE filename="include_head.html">
+</head>
+
+<body>
+    <#INCLUDE filename="include_header.html">
+    <#INCLUDE filename="include_menu.html">  
+
+    <div class="container">
+		<main id="content" aria-label="Content">
+			<form action="illiad.dll" method="post" name="ArticleRequest">
+				<input type="hidden" name="ILLiadForm" value="ArticleRequest">
+				<input type="hidden" name="Username" value="<#PARAM name='Username'>">
+				<input type="hidden" name="SessionID" value="<#PARAM name='SessionID'>">
+				<!-- <input type="hidden" name="ESPNumber" value="<#PARAM name='ESPNumber'>"> -->
+				<input type="hidden" name="CallNumber" value="<#PARAM name='CallNumber'>">
+				<input type="hidden" id="NotWantedAfter" name="NotWantedAfter" value="<#PARAM name='NotWantedAfter'>">
+				<input type="hidden" id="DocumentType" name="DocumentType" value="Article">
+				<#FORMSTATE>
+					
+				<fieldset>	
+
+					<h2 class="page-header">Journal Article Request</h2>
+					
+					<#INCLUDE filename="include_resolver.html">
+					<#INCLUDE filename="include_form_switch_buttons.html">
+
+					<section name="article-info">
+
+						<div class="form-group col-md-12">
+							<label for="PhotoJournalTitle">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoJournalTitle'>">
+										Serial Title  
+										<span class="req">(required)</span>
+									</span>
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoJournalTitle" id="PhotoJournalTitle" value="<#PARAM name='PhotoJournalTitle'>" required>	
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="PhotoArticleTitle">
+								<span class="field">
+									<span class="<#ERROR name='ERRORPhotoArticleTitle'>">
+										Article Title  
+										<span class="req">(required)</span> 
+									</span>	
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoArticleTitle" id="PhotoArticleTitle" value="<#PARAM name='PhotoArticleTitle'>" required>
+						</div>
+
+						<div class="form-group col-md-12"> 
+							<label for="PhotoArticleAuthor">
+								<span class="field">
+								<span class="<#ERROR name='ERRORPhotoArticleAuthor'>">
+										Article Author(s)   
+									</span>
+								</span>
+								<br>
+								<span class="small-notes">
+									last name, first name
+								</span>
+							</label>
+							<input type="text" class="form-control" name="PhotoArticleAuthor" id="PhotoArticleAuthor" value="<#PARAM name='PhotoArticleAuthor'>">
+						</div>
+						
+						<div class="three-line">
+							<div class="form-group col-md-12">
+								<label for="PhotoJournalVolume">
+									<span class="field">
+										<span class="<#ERROR name='ERRORPhotoJournalVolume'>">
+											Volume(s)
+										</span>
+									</span>
+									<span class="small-notes">if any</span>
+								</label>
+								<input type="text" class="form-control" name="PhotoJournalVolume" id="PhotoJournalVolume" value="<#PARAM name='PhotoJournalVolume'>">
+							</div>
+									
+							<div class="form-group col-md-12">
+								<label for="PhotoJournalIssue">
+									<span class="field">
+										<span class="<#ERROR name='ERRORPhotoJournalIssue'>">
+											Issue Number
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="PhotoJournalIssue" id="PhotoJournalIssue" value="<#PARAM name='PhotoJournalIssue'>">
+							</div>
+						
+							<div class="form-group col-md-12">
+								<label for="PhotoJournalInclusivePages">
+									<span class="field">
+										<span class="<#ERROR name='ERRORPhotoJournalInclusivePages'>">
+											Pages
+											<span class="req">(required)</span>    
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="PhotoJournalInclusivePages" id="PhotoJournalInclusivePages" value="<#PARAM name='PhotoJournalInclusivePages'>" required>
+							</div>
+						</div>
+
+						<div class="two-line">
+							<div class="form-group col-md-12">
+								<label for="PhotoJournalMonth">
+									<span class="field">
+										<span class="<#ERROR name='ERRORPhotoJournalMonth'>">
+											Month/Day
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="PhotoJournalMonth" id="PhotoJournalMonth" value="<#PARAM name='PhotoJournalMonth'>">
+							</div>
+							
+							<div class="form-group col-md-12">
+								<label for="PhotoJournalYear">
+									<span class="field">
+										<span class="<#ERROR name='ERRORPhotoJournalYear'>">
+											Year 
+											<span class="req">(required)</span>   
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="PhotoJournalYear" id="PhotoJournalYear" value="<#PARAM name='PhotoJournalYear'>" required>
+							</div>
+						</div>
+
+						<div class="two-line">
+							<div class="form-group col-md-12">
+								<label for="ISSN">
+									<span class="field">
+										<span class="<#ERROR name='ERRORISSN'>"> 
+											ISSN (Intl. Standard Serial No.)   
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="ISSN" id="ISSN" value="<#PARAM name='ISSN'>">
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="ESPNumber">
+									<span class="field">
+										<span class="<#ERROR name='ERRORESPNumber'>">
+											WorldCat/OCLC Accession Number
+										</span>
+									</span>
+								</label>
+								<input type="text" class="form-control" name="ESPNumber" id="ESPNumber" value="<#PARAM name='ESPNumber'>">
+							</div>	
+						</div>
+						
+						<#INCLUDE filename="include_wantedby_notes.html">
+					</section>
+					<#INCLUDE filename="include_request_cited.html">                
+					<#INCLUDE filename="include_request_buttons.html">
+				</fieldset>
+			</form>		
+		</main>
+		
+		<span class="small-notes">The material you request may be protected by copyright (TITLE 17 U.S.C.).</span>
+	
+		<#INCLUDE filename="include_footer.html">
+	</div> 
+</body>
+</html>
+

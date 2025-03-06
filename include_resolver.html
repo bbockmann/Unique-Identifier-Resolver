@@ -1,0 +1,56 @@
+<section name="resolver-info" id="resolve-container">
+    <input type="hidden" id="DOI" name="DOI">
+
+    <div class="resolver">
+
+        <div class="test">
+            <div id="resolve-input">
+                <label for="identifier">
+                    <span class="field">
+                        <span>
+                            Have the <span id="input-type"></span>?
+                        </span>
+                        <span class="small-notes">Enter, then click "Resolve" to populate the form.</span>
+                    </span>
+                </label>
+
+                <div>
+                    <input type="text" class="form-control" name="identifier" id="identifier">
+                    <div class="btn-custom-white" id="resolve-btn">Resolve</div>
+                </div>
+            </div>
+
+            <div id="resolve-options">
+                <div id="suggest-order">
+                    <label for="suggest-type">
+                        <span class="field">
+                            <span>
+                                Suggest this title for Bowdoin
+                            </span>
+                        </span>
+                    </label>
+                    <select class="form-control" id="suggest-type" name="suggest-type">
+                        <option selected></option>
+                        <option>Ebook preferred</option>
+                        <option>Print preferred</option>
+                    </select><br />
+                </div>
+
+                <div class="btn-custom-green" id="submit-btn">Submit Request</div>
+                <div class="btn-custom-white" id="full-access-btn">View Full Text</div>
+            </div>
+        </div>
+
+        <div id="resolve-result">
+            <img id="thumbnail" src="" alt="No Preview Available">
+            <div>
+            </div>    
+        </div>
+
+        <span id="resolve-error" class="field" >There was a problem retrieving this ISBN. Please try again, or complete the form below.</span>
+
+    </div>
+
+</section>
+
+<script type="text/javascript" src="js/custom_script/resolver.js?v=2.2" defer></script>

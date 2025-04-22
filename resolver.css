@@ -1,0 +1,133 @@
+
+.small-notes {
+    color: #5f5e5e;
+    font-size: 14px;
+    padding: 4px 0 0;
+    font-style: italic;
+}
+
+form section {
+    background-color: #f0efed;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.btn-custom-green, .btn-custom-white {
+    /* the class btn-custom meant for use on a div element */
+    width: fit-content;
+    height: fit-content;
+    padding: 6px 12px;
+    border-radius: 0.25rem;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.btn-custom-green{
+    color: white;
+    background-color: #687C2F;
+}
+
+.btn-custom-white{
+    color: #687C2F;
+    background-color: #d1cec883;
+}
+
+.btn-custom-green:hover{
+    cursor: pointer;
+    background-color: #687C2F;
+    opacity: 70%;
+    text-decoration: underline;
+    transition: 0.3s;
+}
+
+.btn-custom-white:hover{
+    background-color: #a4a5a5;
+    color: #05171f;
+    text-decoration: underline;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* Styles for ISBN/DOI resolver */
+
+.resolver {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+}
+
+.resolver>div {
+    width: 50%;
+    min-width: 410px;
+}
+
+#resolve-input,
+#resolve-options,
+#resolve-result,
+#resolve-error {
+    padding: 0 15px 15px;
+}
+
+#resolve-input>div {
+    display: flex;
+}
+
+#isbn-doi {
+    flex-grow: 1;
+}
+
+#resolve-options > div[class|="btn-custom"]{
+    margin-right: 5px;
+    margin-left: 0px;
+}
+
+#resolve-result{
+    display: flex;
+    align-items: center;
+    padding: 0px 15px;
+}
+
+#thumbnail{
+    height: 180px;
+    width: auto;
+    /* padding-left: 15px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); */
+}
+
+#resolve-result div{
+    margin-left: 30px;
+}
+
+#resolve-result h3{
+    color: #212529;
+    font-size: 1.5rem;
+}
+
+#resolve-result p{
+    color: #5f5e5e;
+    font-style: italic;
+    padding: 0;
+}
+
+#resolve-error
+,#resolve-options
+,#resolve-result
+,#suggest-order
+,#full-access-btn{
+    display: none;
+}
+
+@media screen and (max-width: 991px) {
+
+    .resolver>div{
+        width: 100%;
+        min-width: 0px;
+    }
+}

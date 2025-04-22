@@ -10,33 +10,37 @@
  * populates the form with the correct information. If unsuccessful, displays an 
  * error message and prompts the user to try again. 
  * 
- * Based on the original version of the resolver which was written in early 2023, for 
+ * Based on the original version of the resolver which was written in early 2023 for 
  * use with the 9.0 version of the website. 
  * 
  * Date: July, 2023
  * Date (PMID resolver): February, 2024
- * @since 9.2.0
+ * @since ILLiad 9.2.0
  * @author Ben Bockmann
  */
 
-let resolve_btn = get('resolve-btn');
-let submit_btn = get('submit-btn');
-let full_access_btn = get('full-access-btn');
-let clear_btn = get('buttonReset');
-let docType = get('DocumentType').value;
-let doi_or_pmid;
+let resolve_btn = get('resolve-btn'); // ID of the resolve button element
+let submit_btn = get('submit-btn'); // ID of the custom submit button element
+let full_access_btn = get('full-access-btn'); // ID of the full access button
+let clear_btn = get('buttonReset'); // ID of the clear form button
+let docType = get('DocumentType').value; // document type of the current request page
+let doi_or_pmid; // on article request types, indicates whether the user is searching via DOI or PMID
 
-// When a value is put into the input field, automatically update the variable identifier.
-let identifier;
+let identifier; // the DOI, PMID, or ISBN of the item
+
+// When a value is put into the input field, automatically update the identifier variable.
+// Then, update 
 get("identifier").addEventListener('change', (function () {
     if (docType === "Article" || docType === "Conference") {
         let pmid = get('identifier').value.trim();
 
+        // identifier is a PMID
         if (!pmid.includes("10.")){
             identifier = pmid.replaceAll("-", "");
             doi_or_pmid = "pmid";
         }
 
+        // identifier is a DOI
         else {
             let doi = pmid;
             doi = doi.replace("http:", "https:").replace("dx.doi.org", "doi.org");
@@ -49,7 +53,7 @@ get("identifier").addEventListener('change', (function () {
             get("DOI").value = doi;
         }
     }
-    else {
+    else { // identifier is an ISBN
         get("DOI").value = "google books";
         identifier = get('identifier').value.trim().replaceAll("-", "");
     }
@@ -62,7 +66,7 @@ clear_btn.addEventListener("click", function(){
 });
 
 if (docType === "Book") {
-    if (get('LoanTitle').value === "") {
+    if (get('LoanTitle').value === "") { // only display the resolver on a blank request form
         get('resolve-container').style = "display: block;";
         resolve_btn.addEventListener("click", (function () {
             if (identifier != undefined) {
@@ -71,6 +75,7 @@ if (docType === "Book") {
         }));
 
         full_access_btn.addEventListener("click", fullAccessISBN);
+        // populate resolver with correct text
         get('input-type').innerText = "ISBN";
         get("identifier").placeholder = "9781338878981";
     }
@@ -225,8 +230,12 @@ function fullAccessISBN() {
     window.open(("https://www.google.com/search?tbm=bks&q=" + identifier), "_blank");
 }
 
+/**
+ * Creates the correct URL for a DOI, then makes an API call to retrieve the 
+ * citation data. Parses as JSON, then passes citation data to completeFromDOI
+ * and checkFullAccess. If the API call fails, displays an error message. 
+ */
 function resolveDOI() {
-    console.log("resolveDOI called");
     let doi_url = (identifier.includes("https://doi.org/")) ? identifier : ("https://doi.org/" + identifier);
 
     let xmlhttp = new XMLHttpRequest();
@@ -244,8 +253,13 @@ function resolveDOI() {
     xmlhttp.send();
 }
 
+/**
+ * Formats author(s) then populates all relevant fields on the Article 
+ * request type form.
+ * 
+ * @param {object} citation the citation metadata 
+ */
 function completeFromDOI(citation) {
-    console.log("completeFromDOI called");
     let journalTitle = citation["container-title"];
     let articleTitle = citation.title;
     let author_s;
@@ -312,10 +326,21 @@ function completeFromDOI(citation) {
 
 let doi_oa_url;
 
+/**
+ * When the View Full Text button is clicked, calls this function.
+ * Takes the user to the open access URL in a new tab. 
+ */
 function fullAccessDOI() {
     window.open(doi_oa_url, "_blank");
 }
 
+/**
+ * Makes an API call to retrieve citation metadata about the specified PMID. Upon 
+ * a successful API call, checks if there is a DOI in the metadata. If there is, 
+ * calls resolveDOI() with the new DOI. Otherwise, display an error.
+ * 
+ * @returns 
+ */
 function resolvePMID(){
     let pmid = identifier;
 
@@ -331,7 +356,8 @@ function resolvePMID(){
     xmlhttp.onloadend = function(){
         if (xmlhttp.status = 200){
             let response = JSON.parse(this.responseText);
-          
+            
+            // Check for an associated DOI. If none exists, display error. 
             if (response.result[pmid].articleids){
                 for (let i = 0; i < response.result[pmid].articleids.length; i++){
                     if (response.result[pmid].articleids[i].idtype == "doi"){
@@ -361,8 +387,12 @@ function resolvePMID(){
 }
 
 /**
- * Checks the viewability attribute of the citation. If value is "ALL_PAGES",
- * there is a full access copy on Google Books, so the Full Access button is shown.
+ * Based on the identifier type, checks for full acccess. If the type is ISBN, checks
+ * the viewability on Google Books for ALL_PAGES. If found, display the full access button. 
+ * 
+ * For DOIs, make an API call to Open Access Works. If successful, retrieve the 
+ * OA url and display the open access button. 
+ * 
  * @param {object} citation the parsed JSON file
  * @param {string} type whether to check for ISBN or DOI 
  * @param {string} doi_url the url for the DOI
@@ -403,7 +433,6 @@ function checkFullAccess(citation, type, doi_url) {
     }
 }
 
-
 /**
  * Displays the error message, and hides the option and result divs. 
  * Clicks the Clear Form button to reset form fields.
@@ -427,18 +456,6 @@ function clear(refresh){
    
     if (refresh){
         location.reload();
-        // let title = document.title.replace("Request", "").trim();
-
-        // let links = document.getElementsByClassName("nav-item dropdown")[0].children[1].children;
-        // for (let i = 0; i < links.length; i++) {
-        //     console.log("clear");
-
-        //     if (links[i].innerText === title) {
-        //         // window.location = links[i].href;
-        //         window.location = "https://bowdoin.edu";
-
-        //     }
-        // }
     }
     
     else{
@@ -464,12 +481,20 @@ function clear(refresh){
        
 }
 
+/**
+ * Called when a user clicks the custom submit button. Retrieves the real
+ * submit button and clicks it. 
+ */
 function submit() {
     get("buttonSubmitRequest").click();
 }
 
 get("suggest-type").addEventListener("change", updateOrderRequest);
 
+/**
+ * When the user selects an item from the Suggest this title dropdown, 
+ * update the hidden field WantedBy with the value. 
+ */
 function updateOrderRequest(){
     get("WantedBy").value = get("suggest-type").value;
 }
